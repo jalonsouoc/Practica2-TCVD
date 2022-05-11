@@ -1,0 +1,22 @@
+---
+title: 'Práctica2: Limpieza y análisis de datos'
+author: 
+  - "Jorge Alonso Hernández"
+  - "Inés Vidal Sospedra"
+date: '`r format(Sys.Date(),"%e de %B, %Y")`'
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 2
+  pdf_document: 
+    toc: yes
+    toc_depth: 2
+---
+
+# Descripción del dataset
+
+# Limpieza de los datos
+
+# Análisis de los datos
+
+# Conclusiones
