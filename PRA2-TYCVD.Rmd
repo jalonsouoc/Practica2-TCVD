@@ -1,0 +1,195 @@
+---
+title: "Tipología y ciclo de vida de los datos: Práctica 2"
+subtitle: "Limpieza y análisis de datos"
+author: "Jorge Alonso Hernández e Inés Vidal Sospedra"
+date: '`r format(Sys.Date(),"%e de %B, %Y")`'
+output:
+  pdf_document:
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+  html_document:
+    toc: yes   
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+******
+# Descripción de la Práctica a realizar
+******
+
+El objetivo de esta actividad será el tratamiento de un dataset, que puede ser el creado en la
+práctica 1 o bien cualquier dataset libre disponible en Kaggle (https://www.kaggle.com).
+Algunos ejemplos de dataset con los que podéis trabajar son:
+
+- Red Wine Quality (https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009)
+- Titanic: Machine Learning from Disaster (https://www.kaggle.com/c/titanic)
+
+El último ejemplo corresponde a una competición activa de Kaggle de manera que,
+opcionalmente, podéis aprovechar el trabajo realizado durante la práctica para entrar en esta
+competición
+
+Importante: si se elige un dataset diferente de los propuestos es importante que este contenga
+una amplia variedad de datos numéricos y categóricos para poder realizar un análisis más rico y
+poder responder a las diferentes preguntas planteadas en el enunciado de la práctica.
+
+******
+# Solución 
+******
+
+Siguiendo las principales etapas de un proyecto analítico, las diferentes tareas a realizar (y
+justificar) son las siguientes:
+
+## Importación del dataset
+
+En el presente trabajo utilizaremos el conjunto de datos "Titanic" que recoge datos sobre el famoso crucero y sobre el que es fácil realizar tareas de clasificación predictiva sobre la variable "Survived".   
+
+Concretamente, los datos que se utilizan en este estudio se encuentran disponibles en Kaggle (https://www.kagg le.com/c/titanic). Estos están organizados en dos archivos de formato csv: 
+
+- 'train .csv' con todos los datos de una parte de los pasajeros, 
+- 'test.csv' con todos los datos de los pasajeros restantes sin el atributo que indica si sobrevivieron o no. 
+
+Este hecho se debe a que el primer archivo ('train.csv') está pensado para estudiar la relación entre las diferentes características de los pasajeros y sobrevivir o no, mientras que el segundo ('test.csv') está pensado en predecir si los pasajeros sobrevivirán o no en función de las observaciones hechas en el primero.
+
+Dicho esto, procedemos a importar los datasets de los dos archivos para empezar a describir los datos que contienen.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Import libraries needed for the whole study.
+library(ggplot2)
+library(ggpubr)
+library(car)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Import train and test data from the csv files.
+d_train <- read.csv("train.csv", sep = ',', stringsAsFactors = TRUE)
+d_test <- read.csv("test.csv", sep = ',', stringsAsFactors = TRUE)
+```
+
+## Descripción del dataset
+
+Una vez importados, verificamos la estructura del conjunto de datos: 
+
+```{r}
+# Explore train data.
+str(d_train)
+```
+
+El primer dataset (d_train) contiene los datos de entrenamiento que se utilizarán para estudiar a los pasajeros y crear el modelo. En él se puede observar que hay un total de 891 registros y 12 variables.
+
+```{r}
+# Explore test data
+str(d_test)
+```
+
+El segundo dataset (d_test) contiene los datos de prueba o test y cuenta con un total de 418 registros y 11 variables. Esta variable de menos con respecto al primer dataset se debe a que no se dispone de la información referente a la supervivencia del pasajero ya que esta es la variable a predecir.
+
+
+A cotinuación se describen las variables contenidas en ambos datasets:
+
+- PassengerId: variable numérica que contiene el identificador único de cada pasajero.
+
+- Survival: variable categórica que indica si el pasajero sobrevive o no (0=No,1=Yes).
+
+- Pclass: variable numérica que indica la clase en la que viaja el pasajero (1=1st,2=2nd, 3=3rd).
+
+- Name: variable categórica que indica el nombre del pasajero. Hay tantas categorías como registros.
+
+- Sex: variable categórica que indica el género del pasajero (male, female).
+
+- Age: variable numérica que indica la edad del pasajero, en años.
+
+- SibSp: variable numérica que indica el número de hermanos/as y esposo/a que el pasajero tiene a bordo del Titánico.
+
+- Parch: variable numérica que indica el número de padres e hijos que el pasajero tiene a bordo del Titanic.
+
+- Ticket: variable categórica que indica el identificador de ticket del pasajero. Contiene 363 categorías diferentes.
+
+- Fare: variable numérica que indica el precio del ticket del pasajero.
+
+- Cabin: variable categórica que indica el identificador de la cabina del pasajero.
+
+- Embarked: variable categórica que indica el puerto por el que embarcó el pasajero (C=Cherbourg,Q=Queenstown,S=Southampton)
+
+Observando estas variables, se puede apreciar la importancia de éstas para poder dar respuesta al objetivo de este estudio (¿el pasajero sobrevive?) y encontrar si existe algún factor, o factores, que determinen la supervivencia de los pasajeros en el accidente del Titanic.
+
+## Integración y selección de los datos de interés a analizar
+
+Para realizar el análisis sobre qué pasajeros sobrevivieron y cuáles no, se considera que no todas las variables contenidas en el dataset de entrenamiento son de interés.
+
+Por ello, cabe mencionar que la información que contienen las variables 'Ticket', 'Fare' y 'Cabin' es muy variada y se entiende que la información de interés que pueden contener está contenida en la variable 'Pclass', puesto que el número de ticket, su precio y la cabina dependerán de si el pasajero viaja en primera, segunda o tercera clase.
+
+También las variables ‘PassengerId’ y ‘Name’, siendo únicas para cada persona, se decide no seleccionarlas para su posterior análisis.
+
+Por último, las variables 'SibSp' y 'Parch' se han considerado que la única información importante que contienen es si el pasajero viajaba solo o en familia. Así pues, a partir de estas dos variables se crea una nueva llamada “Family”. Esta variable será categórica y contendrá dos valores 'Yes' en caso de que el pasajero viaje en familia (que mínimo una de las viariable 'SibSp' o 'Parch' sea diferente a 0), o 'No' en caso de que viaje solo ( que ambas variables sean 0).
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Create the new variable 'Family'.
+d_train$Family <- d_train$Pclass
+n <- 1
+while (n <= length(d_train$Family)) {
+  if(d_train$SibSp[n]==0 && d_train$Parch[n]==0){
+    d_train$Family[n] <- 'No'
+  }else{
+    d_train$Family[n] <- 'Yes'
+  }
+  n <- n+1
+}
+
+d_train$Family <- as.factor(d_train$Family)
+head(d_train$Family,n=20)
+
+# Convert 'Survived' and 'Pclass' as factors.
+d_train$Survived <- as.factor(d_train$Survived)
+d_train$Pclass <- as.factor(d_train$Pclass)
+head(d_train$Survived,n=20)
+head(d_train$Pclass,n=20)
+```
+
+Con la variable nueva 'Family' creada, se procede a seleccionar las variables de interés para el análisis, siendo éstas las siguientes: 'Survived','Pclass','Sex','Age','Family' y 'Embarked'.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Create a new dataset with the selected data.
+dataset <- d_train[c('Survived','Pclass','Sex','Age','Family','Embarked')]
+head(dataset, n=5)
+```
+
+## Limpieza de los datos
+
+Antes de empezar con el análisis, se debe realizar una limpieza de los datos a utilizar para asegurar que éstos son correctos y para que los resultados que se obtengan con estos datos también lo sean.
+
+Por ello, en primer lugar se visualizan los atributos seleccionados para tener una primera idea de los datos con los que se trabajará.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+#Estadísticas básicas
+summary(dataset)
+```
+
+En estos datos se puede observar cómo existe la presencia de 177 valores vacíos en la única variable numérica del dataset 'Age', y en la variable 'Embarked' hay dos registros con un espacio en blanco. Sin embargo, observando los valores estadísticos en Age, parece que puede haber valores extremos en edades grandes.
+
+### Valores nulos
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Estadísticas de valores vacíos
+colSums(is.na(dataset)) #Suma los NA de cada columna
+colSums(dataset=="") #Suma los campos vacíos de cada columna
+
+
+```
+
+### valores extremos (outliers)
+
+
+## Análisis de los datos
+
+- Selección de los grupos de datos que se quieren analizar/comparar (p. e., si se van a comparar grupos de datos, ¿cuáles son estos grupos y qué tipo de análisis se van a aplicar?)
+
+- Comprobación de la normalidad y homogeneidad de la varianza.
+
+## Pruebas estadísticas
+
+**Aplicación de pruebas estadísticas para comparar los grupos de datos. En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc. Aplicar al menos tres métodos de análisis diferentes.**
+
+## Conclusiones
