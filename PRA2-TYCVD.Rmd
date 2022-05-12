@@ -181,6 +181,19 @@ colSums(dataset=="") #Suma los campos vacíos de cada columna
 
 ### valores extremos (outliers)
 
+Revisamos los valores extremos que pudieran existir en la variable Age, para ello utilizamos un diagrama de caja
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Diagrama de caja de las edades
+boxplot(dataset$Age)
+```
+
+Podemos ver que los valores extremos que se han detectado se refieren a las edades entre los 60 y los 80 años, por lo que no los considerarmeos como extremos ya que son edades válidas.
+
+
+### Discretizar datos
+
+
 
 ## Análisis de los datos
 
