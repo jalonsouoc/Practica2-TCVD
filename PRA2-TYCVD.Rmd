@@ -64,8 +64,8 @@ library(car)
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 # Import train and test data from the csv files.
-d_train <- read.csv("train.csv", sep = ',', stringsAsFactors = TRUE)
-d_test <- read.csv("test.csv", sep = ',', stringsAsFactors = TRUE)
+d_train <- read.csv("CSV/train.csv", sep = ',', stringsAsFactors = TRUE)
+d_test <- read.csv("CSV/test.csv", sep = ',', stringsAsFactors = TRUE)
 ```
 
 ## Descripción del dataset
