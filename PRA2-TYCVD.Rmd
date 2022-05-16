@@ -176,8 +176,14 @@ En estos datos se puede observar cómo existe la presencia de 177 valores vacío
 colSums(is.na(dataset)) #Suma los NA de cada columna
 colSums(dataset=="") #Suma los campos vacíos de cada columna
 
-
 ```
+
+Revisando la presencia de valores vacíos nos encontramos con 177 valores vacíos el a columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos.
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+# Tomamos la media para valores vacíos de la variable "Age"
+dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age,na.rm=T)
+````
 
 ### valores extremos (outliers)
 
