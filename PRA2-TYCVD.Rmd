@@ -199,7 +199,19 @@ Podemos ver que los valores extremos que se han detectado se refieren a las edad
 
 ### Discretizar datos
 
+Para una mejor análisis de los datos realizaremos la discretización de la variable Age de forma que obtengamos una nueva variable con el rango de edad de los pasajeros en intervalos.
 
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+dataset["rango_edad"] <- cut(dataset$Age, breaks = c(0,10,20,30,40,50,60,70,100), labels = c("0-9", "10-19", "20-29", "30-39","40-49","50-59","60-69","70-79"))
+```
+
+Visualizamos los resultados de la nueva variable obtenida.
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+plot(dataset$rango_edad)
+````
+
+Podemos apreciar que la mayoría de los pasajeros pertenecen al rango de edad entre los 20 y los 29 años.
 
 ## Análisis de los datos
 
