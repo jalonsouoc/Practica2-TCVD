@@ -301,7 +301,7 @@ Para ello, realizaremos
 - Contraste de hipótesis sobre la proporción de supervivientes entre pasajeros hombres y pasajeras mujeres
 - Cálculo de un modelo de regresión logística tomando la supervivencia como variable a explicar y el resto como variables explicativas.
 
-#### Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes, y los no supervivientes.
+### Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes, y los no supervivientes.
 
 En primer lugar para poder realizar el estudio obtenemos las muestras de las edades para los supervivientes y los no supervivientes
 
@@ -369,6 +369,58 @@ t.test(H,D)
 ````
 
 Podemos observar de nuevo que coinciden los resultados y que tenemos un p-valor inferior  al alfa definido de 0.05 por lo que rechazamos la hipótesis nula de que el promedio de las edades de los supervivientes es igual a el promedio de edades de los no supervivientes y aceptamos la hipótesis nula que establece que el promedio de edad de los supervivientes es mayor al promedio de edad de los no supervivientes.
+
+### Contraste de hipótesis sobre la proporción de supervivientes entre pasajeros hombres y pasajeras mujeres
+
+Para poder realizar este estudio en primer lugar obtendremos una muestra de datos para hombres y otra para mujeres de aquellas personas que fueron supervivientes
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+man <- dataset$Survived[dataset$Sex == "male"]
+woman <- dataset$Survived[dataset$Sex == "female"]
+````
+
+Definimos la hipótesis nula y la hipótesis alternativa
+
+* **Hipótesis nula:** la proporción de hombres que sobrevivieron es igual a la proporción de mujeres quesobrevivieron
+
+$$H_0: p_1 = p_2$$
+
+
+* **Hipótesis alternativa:** la proporción de hombres que sobrevivieron es diferente a la proproción de mujeres que sobrevivieron 
+
+$$H_0: p_1 ≠ p_2$$
+
+En este caso aplicamos el estadístico relativo al contraste de la proporción de dos muestras 
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+alfa <- 1-0.95
+x1 <- man[man == 1] # Hombres supervivientes
+x2 <- woman[woman == 1] # Mujeres supervivientes
+
+n1 <- length(man) # número de hombres en el barco
+n2 <- length(woman) # número de mujeres en el barco 
+
+p1 <- sum(length(x1))/n1 # proproción de hombres supervivientes
+p2 <- sum(length(x2))/n2 # proporción de muejres supervivientes
+
+p <- (n1*p1 + n2*p2) / (n1+n2)
+zobs <- (p1-p2)/(sqrt((p*(1-p))*(1/n1+1/n2)))
+zcrit <- qnorm(alfa, lower.tail = FALSE)
+pvalue <- pnorm(zobs, lower.tail=FALSE)
+
+c(p1,p2, n1, n2, length(x1), length(x2))
+c(zobs, zcrit,pvalue)
+````
+
+Realizamos la comprobación  empleando la función en R prop.test.
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+success <- c(p1*n1, p2*n2)
+nn <- c(n1,n2)
+prop.test(success, nn, alternative="greater", correct=FALSE)
+````
+
+Obtenemos que en ámbos casos el p-valor es igual por lo que podemos aceptar la hipótesis nula debido a que el p-valor obtenido es superior al alfa de 0.05 por lo que concluimos que la proporción de hombres supervivientes es igual a la proporción de mujeres supervivientes con un nivel de confianza del 95%.
 
 ### Cálculo de un modelo de regresión logística tomando la supervivencia como variable a explicar y el resto como variables explicativas.
 
