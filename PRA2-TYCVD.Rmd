@@ -452,6 +452,20 @@ del modelo indican que:
 
 Una vez interpretados los coeficientes, debe mencionarse que la variable que tiene más peso en este modelo es el sexo, puesto que para el odds ratio es el más pequeño. Por tanto, la probabilidad de sobrevivir cambia más que cualquier otra variable. A continuación se evaluará la precisión del modelo.
 
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+pred <- ifelse(test = modelo$fitted.values > 0.5, yes = 1, no = 0)
+conf_mat <- table(modelo$model$Survived, pred,
+                  dnn = c("observations", "predictions"))
+conf_mat
+
+````
+
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+(475+239)/(475+239+101+74)*100
+````
+Puede concluirse que el modelo de regresión logística tiene una precisión del 80,31%. 
+
 ## Predicciones sobre los datos de test 
 
 ### Integración y selección de los datos de interés 
