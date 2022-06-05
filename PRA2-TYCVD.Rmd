@@ -428,5 +428,9 @@ del modelo indican que:
 Una vez interpretados los coeficientes, debe mencionarse que la variable que tiene más peso en este modelo es el sexo, puesto que para el odds ratio es el más pequeño. Por tanto, la probabilidad de sobrevivir cambia más que
 cualquier otra variable. A continuación se evaluará la precisión del modelo.
 
+## Predicciones sobre los datos de test 
+
 
 ## Conclusiones
+
+
