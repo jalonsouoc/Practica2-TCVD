@@ -190,13 +190,10 @@ colSums(dataset=="") #Suma los campos vacíos de cada columna
 
 Revisando la presencia de valores vacíos nos encontramos con 177 valores vacíos el la columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos. 
 
-
-
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 # Tomamos la media para valores vacíos de la variable "Age"
 dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age,na.rm=T)
 ````
-
 En cuanto a los 2 registros con un espacio en blanco se ha decidido eliminar las dos filas que contienen dichos valores faltantes.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
@@ -213,7 +210,6 @@ boxplot(dataset$Age)
 ```
 
 Podemos ver que los valores extremos que se han detectado se refieren a las edades entre los 60 y los 80 años, por lo que no los considerarmeos como extremos ya que son edades válidas.
-
 
 ### Discretizar datos
 
@@ -233,7 +229,7 @@ Podemos apreciar que la mayoría de los pasajeros pertenecen al rango de edad en
 
 ## Análisis de los datos
 
-- Selección de los grupos de datos que se quieren analizar/comparar (p. e., si se van a comparar grupos de datos, ¿cuáles son estos grupos y qué tipo de análisis se van a aplicar?)
+**Selección de los grupos de datos que se quieren analizar/comparar (p. e., si se van a comparar grupos de datos, ¿cuáles son estos grupos y qué tipo de análisis se van a aplicar?)**
 
 Como primer análisis sobre el conjunto de datos, es interesante observar cómo están repartidos los pasajeros entre supervivientes y no supervivientes, respecto al resto de variables seleccionadas para el estudio.
 
@@ -264,22 +260,19 @@ figure
 
 ````
 
+De los gráficos obtenidos se puede comentar que para la variable:
 
-En la primera gráfica podemos observar fácilmente la cantidad de mujeres que viajaban respecto hombres y observar los que no sobrevivieron. Numéricamente el número de hombres y mujeres supervivientes es similar.
+- Pclass: para los pasajeros de primera clase, el porcentaje de supervivencia es muy superior al 50%, mientras que para los pasajeros de tercera clase, el número de supervivientes no llega a representar un 25% del total. Se puede concluir, a priori, que a mejor clase, las probabilidades de sobrevivir aumentan.
 
-En la segunda gráfica de forma porcentual observamos los puertos de embarque y los porcentajes de supervivencia en función del puerto. Se podría trabajar el puerto C (Cherburgo) para ver de explicar la diferencia en los datos. Quizás porcentualmente embarcaron más mujeres o niños… O gente de primera clase?
+- Sex: la diferencia de relación entre supervivientes respecto a hombres y mujeres muestra una diferencia evidente. El porcentaje de supervivientes por mujeres es de casi un 75%, mientras que por varones no llega al 20%. 
 
-````{r echo=TRUE, message=FALSE, warning=FALSE}
-t<-table(dataset[1:filas,]$Embarked,dataset[1:filas,]$Survived)
-for (i in 1:dim(t)[1]){
-    t[i,]<-t[i,]/sum(t[i,])*100
-}
-t
-````
+- Age: para la edad de los pasajeros, se observa una clara mayoría de supervivientes por menores de 10 años, mientras que para mayores de 60 predominan los no supervivientes. Por lo que esta variable parece ser relevante en cuanto a la supervivencia por las edades extremas.
 
-Obtenemos ahora una matriz de porcentajes de frecuencia. Vemos, por ejemplo que la probabilidad de sobrevivir si se embarcó en “C” es de un 55.36%.
+- Family: para los pasajeros en familia, se observa que la relación entre supervivientes es más favorable que para los que viajan solos. Así pues, parece que los pasajeros en familia deben tener más éxito en sobrevivir.
 
-- Comprobación de la normalidad y homogeneidad de la varianza.
+- Embarked: para los pasajeros que han embarcado en Cherbourg muestran una relación de supervivencia de 45-55, ganando a los supervivientes, pero en los casos de Queenstown y Southampton se observa una relación similar, donde los supervivientes representan menos del 40%. 
+
+**Comprobación de la normalidad y homogeneidad de la varianza.**
 
 Para poder realizar un contraste de hipótesis sobre la media poblacional en la variable Age, primero es necesario estudiar si la distribución de estos datos es normal y si la varianza es homogénea (homocedasticidad), es decir, si la varianza entre los pasajeros supervivientes y no puede considerarse igual en ambos grupos.
 
