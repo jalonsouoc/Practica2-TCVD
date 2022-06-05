@@ -178,16 +178,16 @@ colSums(dataset=="") #Suma los campos vacíos de cada columna
 
 ```
 
-Revisando la presencia de valores vacíos nos encontramos con 177 valores vacíos el a columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos.
+Revisando la presencia de valores vacíos nos encontramos con 177 valores vacíos el la columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 # Tomamos la media para valores vacíos de la variable "Age"
 dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age,na.rm=T)
 ````
 
-### valores extremos (outliers)
+### Valores extremos (outliers)
 
-Revisamos los valores extremos que pudieran existir en la variable Age, para ello utilizamos un diagrama de caja
+Siendo 'Age' la única variable numérica, es la única que puede tener valores atípicos. Por ello, revisamos los valores extremos que pudieran existir en la variable Age, utilizando un diagrama de caja (boxplot).
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 # Diagrama de caja de las edades
@@ -218,6 +218,38 @@ Podemos apreciar que la mayoría de los pasajeros pertenecen al rango de edad en
 - Selección de los grupos de datos que se quieren analizar/comparar (p. e., si se van a comparar grupos de datos, ¿cuáles son estos grupos y qué tipo de análisis se van a aplicar?)
 
 - Comprobación de la normalidad y homogeneidad de la varianza.
+
+Para poder realizar un contraste de hipótesis sobre la media poblacional en la variable Age, primero es necesario estudiar si la distribución de estos datos es normal y si la varianza es homogénea (homocedasticidad), es decir, si la varianza entre los pasajeros supervivientes y no puede considerarse igual en ambos grupos.
+
+Empezando por comprobar si la variable 'Age' sigue una distribución normal, se aplica el test de Shapiro-Wilk sobre esta variable, así como se representa el gráfico Q-Q
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+shapiro.test(dataset$Age)
+````
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+qqnorm(dataset$Age)
+qqline(dataset$Age)
+````
+
+El test Shapiro-Wilk da un p-value de 3,969·10−15 (muy inferior a 0,05), por lo que **se rechaza la hipótesis de que la variable ‘Age’ sigue una distribución normal**. Además, en la gráfica Q-Q, los puntos se alejan significativamente de la recta. 
+
+Sabiendo que los datos sobre la edad de los pasajeros no se distribuyen de forma normal, puede procederse a comprobar la homogeneidad de la varancia en esta misma variable ‘Age’.
+
+Para estudiar la homocedasticidad de los datos sobre la edad, primero se representan los diagramas de cajas para ambos grupos, para tener una idea de si las muestras entre estos dos grupos se distribuyen de la misma modo. Y para tener una respuesta definitiva a saber si las varianzas son iguales, teniendo en cuenta que la variable 'Age' no sigue una distribución normal, se aplica el test de Levene sobre la mediana.
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+ggplot(data = dataset, aes(x = Survived, y = Age, colour = Survived)) +
+geom_boxplot() +
+theme_bw() +
+theme(legend.position = "none")
+````
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+leveneTest(y = dataset$Age, group = dataset$Survived, center = "median")
+````
+Observando la posición de la mediana en los diagramas de cajas respecto a los cuartiles, se aprecia una diferencia significativa entre ambos grupos. Y finalmente, en el test de Levene, aunque por poco, el p-value obtenido de 0,019 es inferior al nivel de significación 0,05. Esto implica que se rechaza la hipótesis nula de que las dos varianzas son iguales, y por tanto, **las varianzas entre las edades de los dos grupos (supervivientes y no supervivientes) son distintas.**
+
+
 
 ## Pruebas estadísticas
 
