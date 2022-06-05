@@ -90,27 +90,16 @@ El segundo dataset (d_test) contiene los datos de prueba o test y cuenta con un 
 A cotinuación se describen las variables contenidas en ambos datasets:
 
 - PassengerId: variable numérica que contiene el identificador único de cada pasajero.
-
 - Survival: variable categórica que indica si el pasajero sobrevive o no (0=No,1=Yes).
-
 - Pclass: variable numérica que indica la clase en la que viaja el pasajero (1=1st,2=2nd, 3=3rd).
-
 - Name: variable categórica que indica el nombre del pasajero. Hay tantas categorías como registros.
-
 - Sex: variable categórica que indica el género del pasajero (male, female).
-
 - Age: variable numérica que indica la edad del pasajero, en años.
-
 - SibSp: variable numérica que indica el número de hermanos/as y esposo/a que el pasajero tiene a bordo del Titánico.
-
 - Parch: variable numérica que indica el número de padres e hijos que el pasajero tiene a bordo del Titanic.
-
 - Ticket: variable categórica que indica el identificador de ticket del pasajero. Contiene 363 categorías diferentes.
-
 - Fare: variable numérica que indica el precio del ticket del pasajero.
-
 - Cabin: variable categórica que indica el identificador de la cabina del pasajero.
-
 - Embarked: variable categórica que indica el puerto por el que embarcó el pasajero (C=Cherbourg,Q=Queenstown,S=Southampton)
 
 Observando estas variables, se puede apreciar la importancia de éstas para poder dar respuesta al objetivo de este estudio (¿el pasajero sobrevive?) y encontrar si existe algún factor, o factores, que determinen la supervivencia de los pasajeros en el accidente del Titanic.
@@ -263,13 +252,9 @@ figure
 De los gráficos obtenidos se puede comentar que para la variable:
 
 - Pclass: para los pasajeros de primera clase, el porcentaje de supervivencia es muy superior al 50%, mientras que para los pasajeros de tercera clase, el número de supervivientes no llega a representar un 25% del total. Se puede concluir, a priori, que a mejor clase, las probabilidades de sobrevivir aumentan.
-
 - Sex: la diferencia de relación entre supervivientes respecto a hombres y mujeres muestra una diferencia evidente. El porcentaje de supervivientes por mujeres es de casi un 75%, mientras que por varones no llega al 20%. 
-
 - Age: para la edad de los pasajeros, se observa una clara mayoría de supervivientes por menores de 10 años, mientras que para mayores de 60 predominan los no supervivientes. Por lo que esta variable parece ser relevante en cuanto a la supervivencia por las edades extremas.
-
 - Family: para los pasajeros en familia, se observa que la relación entre supervivientes es más favorable que para los que viajan solos. Así pues, parece que los pasajeros en familia deben tener más éxito en sobrevivir.
-
 - Embarked: para los pasajeros que han embarcado en Cherbourg muestran una relación de supervivencia de 45-55, ganando a los supervivientes, pero en los casos de Queenstown y Southampton se observa una relación similar, donde los supervivientes representan menos del 40%. 
 
 **Comprobación de la normalidad y homogeneidad de la varianza.**
@@ -313,9 +298,7 @@ Con lo expuesto en los puntos anteriores, se ha decidido que una vez realizado e
 Para ello, realizaremos 
 
 - Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes y los no supervivientes.
-
 - Contraste de hipótesis sobre la proporción de supervivientes entre pasajeros hombres y pasajeras mujeres
-
 - Cálculo de un modelo de regresión logística tomando la supervivencia como variable a explicar y el resto como variables explicativas.
 
 #### Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes, y los no supervivientes.
@@ -329,16 +312,13 @@ noSupervivientes <- dataset$Age[dataset$Survived == 1] # Datos de los no supervi
 
 Definimos la hipótesis nula y la hipótesis alternativa:
 
-
 * **Hipótesis nula:** el promedio de las edades de los supervivientes es igual al promedio de edades de los no supervivientes
 
 $$H_0: µ_1 = µ_2$$
 
-
 * **Hipótesis alternativa:** el promedio de las edades de los supervivientes es mayor a el promedio de las edadesd de los no supervivientes
 
 $$H_0: µ_1 > µ_2$$
-
 
 Antes de aplicar el estadístico del contraste realizaremos el test de homocesdasticidad  para comprobar si las varianzas son iguales:
 
@@ -382,7 +362,6 @@ pvalue <- pt(abs(tobs), df=v, lower.tail=FALSE)*2
 c(tobs, tcrit, pvalue)
 ````
 
-
 Realizamos la comprobación de los calculos con la función en R t.test
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
@@ -412,21 +391,14 @@ Los odds ratio de cada una de las variables significativas dentro
 del modelo indican que:
 
 - Pclass2: por cada pasajero que viaja en segunda clase, el odds de sobrevivir disminuye en un 0.3941
-
 - Pclass3: por cada pasajero que viaja en tercera clase, el odds de sobrevivir disminuye en un 0.1108
-
 - Sexmale: si el pasajero es un hombre, el odds de sobrevivir disminuye en un 0.071
-
 - Rango_edad: de todos los rangos de edad, un pasajero que tiene entre 30-39 años, el odds de sobrevivir disminuye en un 0.2942
-
 - FamilyYes: si el pasajero tiene familia, el odds de sobrevivir disminuye en un 0.8095
-
 - EmbarkedQ: si el pasajero embarcó en el puerto de Queenstown, el odds de sobrevivir disminuye en 0.9344
-
 - EmbarkedS si el pasajero embarcó en el puerto de Southamptons, el odds de sobrevivir disminuye en 0.5416
 
-Una vez interpretados los coeficientes, debe mencionarse que la variable que tiene más peso en este modelo es el sexo, puesto que para el odds ratio es el más pequeño. Por tanto, la probabilidad de sobrevivir cambia más que
-cualquier otra variable. A continuación se evaluará la precisión del modelo.
+Una vez interpretados los coeficientes, debe mencionarse que la variable que tiene más peso en este modelo es el sexo, puesto que para el odds ratio es el más pequeño. Por tanto, la probabilidad de sobrevivir cambia más que cualquier otra variable. A continuación se evaluará la precisión del modelo.
 
 ## Predicciones sobre los datos de test 
 
