@@ -4,12 +4,12 @@ subtitle: "Limpieza y análisis de datos"
 author: "Jorge Alonso Hernández e Inés Vidal Sospedra"
 date: '`r format(Sys.Date(),"%e de %B, %Y")`'
 output:
+  html_document:
+    toc: yes   
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
-  html_document:
-    toc: yes   
 ---
 
 ```{r setup, include=FALSE}
@@ -307,5 +307,81 @@ Observando la posición de la mediana en los diagramas de cajas respecto a los c
 ## Pruebas estadísticas
 
 **Aplicación de pruebas estadísticas para comparar los grupos de datos. En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc. Aplicar al menos tres métodos de análisis diferentes.**
+
+### Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes, y los no supervivientes.
+
+En primer lugar para poder realizar el estudio obtenemos las muestras de las edades para los supervivientes y los no supervivientes
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+supervivientes <- dataset$Age[dataset$Survived == 0] # Datos de supervivientes
+noSupervivientes <- dataset$Age[dataset$Survived == 1] # Datos de los no supervivientes
+````
+
+Definimos la hipótesis nula y la hipótesis alternativa:
+
+
+* **Hipótesis nula:** el promedio de las edades de los supervivientes es igual al promedio de edades de los no supervivientes
+
+$$H_0: µ_1 = µ_2$$
+
+
+* **Hipótesis alternativa:** el promedio de las edades de los supervivientes es mayor a el promedio de las edadesd de los no supervivientes
+
+$$H_0: µ_1 > µ_2$$
+
+
+Antes de aplicar el estadístico del contraste realizaremos el test de homocesdasticidad  para comprobar si las varianzas son iguales:
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+
+alfa <- 1 - 0.95
+H <- supervivientes
+D <- noSupervivientes
+mean1 <- mean(H) # media supervivientes
+n1 <- length(H) # número de supervivientes
+s1 <- sd(H) # desviación típica supervivientes
+mean2 <- mean(D) # media no supervivientes
+n2 <- length(D) # número de no supervivientes
+s2 <- sd(D) # desviación típica no supervivientes
+fobs <- s1^2/s2^2
+fcritL <- qf(alfa, df1=n1-1, df2=n2-2)
+fcritU <- qf(1 - alfa, df1=n1-1, df2=n2-2)
+pvalue <- min(pf(fobs, df1=n1-1, df2=n2-2, lower.tail=FALSE), pf(fobs, df1=n1-1, df2=n2-2))*2
+c(fobs, fcritL, fcritU, pvalue)
+````
+
+Realizamos la comprobación del resultado con la función en R var.test.
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+var.test(H, D)
+````
+
+Como podemos observar los resultados coinciden y se obtiene un p-valor inferior al alfa definido de 0.05 por lo que podemos asumir que las crianzas son diferentes. 
+
+Al estar ante unas varianzas diferentes el estadistico a a plicar será el contraste de dos muestras sobre la media con viaranzas diferentes.
+
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+alfa <- 1-0.95
+dfMean = mean1 -mean2
+v <- ((s1^2/n1)+(s2^2/n2))^2 / (((s2^2/n1)^2/(n1-1)) + ((s2^2/n2)^2/(n2-1)))
+
+tobs <- dfMean/sqrt((s1^2/n1 + s2^2/n2))
+tcrit <- qt(alfa, v)
+pvalue <- pt(abs(tobs), df=v, lower.tail=FALSE)*2
+c(tobs, tcrit, pvalue)
+````
+
+
+Realizamos la comprobación de los calculos con la función en R t.test
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+t.test(H,D)
+````
+
+Podemos observar de nuevo que coinciden los resultados y que tenemos un p-valor inferior  al alfa definido de 0.05 por lo que rechazamos la hipótesis nula de que el promedio de las edades de los supervivientes es igual a el promedio de edades de los no supervivientes y aceptamos la hipótesis nula que establece que el promedio de edad de los supervivientes es mayor al promedio de edad de los no supervivientes.
+
+### Contraste de hipótesis sobre la proporción de supervivientes entre pasajeros hombres y pasajeras mujeres
+
 
 ## Conclusiones
