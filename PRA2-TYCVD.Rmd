@@ -454,6 +454,112 @@ Una vez interpretados los coeficientes, debe mencionarse que la variable que tie
 
 ## Predicciones sobre los datos de test 
 
+### Integración y selección de los datos de interés 
+
+A continuación se procederá a realizar todos los cambios necesarios para trabajar con el archivo test de los datos con el objetivo de predecir si los pasajeros sobrevivirán o no.
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Create the new variable 'Family'.
+d_test$Family <- d_test$Pclass
+n <- 1
+while (n <= length(d_test$Family)) {
+  if(d_test$SibSp[n]==0 && d_test$Parch[n]==0){
+    d_test$Family[n] <- 'No'
+  }else{
+    d_test$Family[n] <- 'Yes'
+  }
+  n <- n+1
+}
+
+d_test$Family <- as.factor(d_test$Family)
+head(d_test$Family,n=20)
+```
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Convert 'Pclass' as a factor.
+d_test$Pclass <- as.factor(d_test$Pclass)
+head(d_test$Pclass,n=20)
+```
+
+Se seleccionan las variables de interés para realizar la predicción.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+d_test <- d_test[c('Pclass','Sex','Age','Family','Embarked')]
+head(d_test, n=5)
+```
+
+Se revisa si existen valores nulos en el dataset test 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Estadísticas de valores vacíos
+colSums(is.na(d_test)) #Suma los NA de cada columna
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Estadísticas de valores vacíos
+colSums(d_test=="") #Suma los campos vacíos de cada columna
+```
+
+Revisando la presencia de valores vacíos nos encontramos con 86 valores vacíos el la columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos. 
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+# Tomamos la media para valores vacíos de la variable "Age"
+d_test$Age[is.na(d_test$Age)] <- mean(d_test$Age,na.rm=T)
+````
+
+Del mismo modo que en el caso del dataset train, se procede a discretizar la variable Age en diferentes rangos 
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+
+d_test["rango_edad"] <- cut(d_test$Age, breaks = c(0,10,20,30,40,50,60,70,100), labels = c("0-9", "10-19", "20-29", "30-39","40-49","50-59","60-69","70-79"))
+````
+
+Una vez preparado el dataset, se procede a obtener la predicción de interés.
+
+### Predicción de supervivencia
+
+A continuación se procederá a realizar las predicciones del conjunto de datos de test, utilizando el modelo obtenido.
+
+De este modo, si el resultado es superior o igual a una probabilidad de 0.5 se interpretará como el pasajero sobrevive, de lo contrario, se interpretará que el pasajero no sobrevive.
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+predictions <- predict(object = modelo,
+                       newdata=d_test,
+                       type = "response")
+
+# Convert the predictions in categories by the rule of separeting in 0.5.
+n <- 1
+while (n <= length(predictions)) {
+  if(predictions[n] >= 0.5){
+    predictions[n] = 1
+  }else{
+    predictions[n] = 0
+  }
+  n <- n+1
+}
+
+head(predictions, n=20)
+
+````
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+d_test["Survived"] <- predictions
+````
+
+Se comprueba que por cada línea se extrae un valor 0 o 1 correspondiente a si el pasajero determinado no sobrevive (0) o sobrevive (1).
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+predicted_positive <- sum(d_test$Survived==1)
+predicted_negative <- sum(d_test$Survived==0)
+total <- predicted_positive + predicted_negative
+````
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+print(predicted_positive/total*100)
+````
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+
+print(predicted_negative/total*100)
+````
 
 ## Conclusiones
 
