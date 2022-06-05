@@ -501,6 +501,7 @@ colSums(d_test=="") #Suma los campos vacíos de cada columna
 ```
 
 Revisando la presencia de valores vacíos nos encontramos con 86 valores vacíos el la columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos. 
+
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 # Tomamos la media para valores vacíos de la variable "Age"
 d_test$Age[is.na(d_test$Age)] <- mean(d_test$Age,na.rm=T)
