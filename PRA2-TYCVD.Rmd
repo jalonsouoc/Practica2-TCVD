@@ -141,10 +141,17 @@ while (n <= length(d_train$Family)) {
 d_train$Family <- as.factor(d_train$Family)
 head(d_train$Family,n=20)
 
-# Convert 'Survived' and 'Pclass' as factors.
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+# Convert 'Survived' as factor.
 d_train$Survived <- as.factor(d_train$Survived)
-d_train$Pclass <- as.factor(d_train$Pclass)
 head(d_train$Survived,n=20)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+# Convert 'Pclass' as factor.
+d_train$Pclass <- as.factor(d_train$Pclass)
 head(d_train$Pclass,n=20)
 ```
 
@@ -174,21 +181,26 @@ En estos datos se puede observar cómo existe la presencia de 177 valores vacío
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 # Estadísticas de valores vacíos
 colSums(is.na(dataset)) #Suma los NA de cada columna
-colSums(dataset=="") #Suma los campos vacíos de cada columna
-
 ```
 
-Revisando la presencia de valores vacíos nos encontramos con 177 valores vacíos el la columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos.
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Estadísticas de valores vacíos
+colSums(dataset=="") #Suma los campos vacíos de cada columna
+```
+
+Revisando la presencia de valores vacíos nos encontramos con 177 valores vacíos el la columna de 'Age' por lo que para no entorpecer el análisis posterior aplicaremos el valor de la media de la edad a estos valores nulos. 
+
+
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 # Tomamos la media para valores vacíos de la variable "Age"
 dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age,na.rm=T)
 ````
 
-En cuanto a los 2 registros con un espacio en blanco en la variable Embarked, como Southampton (S) es donde embarca más gente, se decide atribuir estos dos registros a ese puerto.
+En cuanto a los 2 registros con un espacio en blanco se ha decidido eliminar las dos filas que contienen dichos valores faltantes.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
-
+dataset <- dataset[!is.na(dataset$Embarked),]
 ````
 
 ### Valores extremos (outliers)
@@ -223,19 +235,35 @@ Podemos apreciar que la mayoría de los pasajeros pertenecen al rango de edad en
 
 - Selección de los grupos de datos que se quieren analizar/comparar (p. e., si se van a comparar grupos de datos, ¿cuáles son estos grupos y qué tipo de análisis se van a aplicar?)
 
-Nos proponemos analizar las relaciones entre las diferentes variables del conjunto de datos para ver si se relacionan y como.
+Como primer análisis sobre el conjunto de datos, es interesante observar cómo están repartidos los pasajeros entre supervivientes y no supervivientes, respecto al resto de variables seleccionadas para el estudio.
+
+Por eso, se realizan representaciones gráficas sobre cada variable, separando para cada grupo entre supervivientes y no supervivientes. Al ser prácticamente todo variables categóricas, las representaciones se realizan en gráficos de barras. En el caso de la variable ‘Age’, se representan en un histograma, agrupando las columnas en intervalos de 4.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
-# Visualizamos la relación entre las variables "sex" y "survival":
-filas=dim(dataset)[1]
-ggplot(data=dataset[1:filas,],aes(x=Sex,fill=Survived))+geom_bar()
+layout(matrix(c(1,2,
+                3,3,
+                4,5), 3,3, byrow = TRUE))
+Pclass_plot <- ggplot(data = dataset,aes(x=Pclass,fill=Survived)) +
+geom_bar(position="fill") + ylab("Frecuencia")
+Sex_plot <- ggplot(data = dataset,aes(x=Sex,fill=Survived)) +
+geom_bar(position="fill") + ylab("Frecuencia")
+Age_plot <- ggplot(data = dataset,aes(x=Age,fill=Survived)) +
+geom_histogram(binwidth = 4,position="fill") + ylab("Frecuencia")
+Family_plot <- ggplot(data = dataset,aes(x=Family,fill=Survived)) +
+geom_bar(position="fill") + ylab("Frecuencia")
+Embarked_plot <- ggplot(data = dataset,aes(x=Embarked,fill=Survived)) +
+geom_bar(position="fill") + ylab("Frequència")
+
+figure <- ggarrange(Pclass_plot,
+          Sex_plot,
+          Age_plot,
+          Family_plot,
+          Embarked_plot,
+          ncol = 2, nrow = 3)
+figure
+
 ````
 
-````{r echo=TRUE, message=FALSE, warning=FALSE}
-
-# Otro punto de vista. Survival como función de Embarked:
-ggplot(data = dataset[1:filas,],aes(x=Embarked,fill=Survived))+geom_bar(position="fill")+ylab("Frecuencia")
-````
 
 En la primera gráfica podemos observar fácilmente la cantidad de mujeres que viajaban respecto hombres y observar los que no sobrevivieron. Numéricamente el número de hombres y mujeres supervivientes es similar.
 
