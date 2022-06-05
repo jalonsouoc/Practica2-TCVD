@@ -304,8 +304,6 @@ leveneTest(y = dataset$Age, group = dataset$Survived, center = "median")
 ````
 Observando la posición de la mediana en los diagramas de cajas respecto a los cuartiles, se aprecia una diferencia significativa entre ambos grupos. Y finalmente, en el test de Levene, aunque por poco, el p-value obtenido de 0,019 es inferior al nivel de significación 0,05. Esto implica que se rechaza la hipótesis nula de que las dos varianzas son iguales, y por tanto, **las varianzas entre las edades de los dos grupos (supervivientes y no supervivientes) son distintas.**
 
-
-
 ## Pruebas estadísticas
 
 **Aplicación de pruebas estadísticas para comparar los grupos de datos. En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc. Aplicar al menos tres métodos de análisis diferentes.**
