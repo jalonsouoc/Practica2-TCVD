@@ -308,4 +308,14 @@ Observando la posición de la mediana en los diagramas de cajas respecto a los c
 
 **Aplicación de pruebas estadísticas para comparar los grupos de datos. En función de los datos y el objetivo del estudio, aplicar pruebas de contraste de hipótesis, correlaciones, regresiones, etc. Aplicar al menos tres métodos de análisis diferentes.**
 
+Con lo expuesto en los puntos anteriores, se ha decidido que una vez realizado el análisis básico sobre los datos, se puede definir el plan a seguir para determinar qué pasajeros son más probables de sobrevivir.
+
+Para ello, realizaremos 
+
+- Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes y los no supervivientes.
+
+- Contraste de hipótesis sobre la proporción de supervivientes entre pasajeros hombres y pasajeras mujeres
+
+- Cálculo de un modelo de regresión logística tomando la supervivencia como variable a explicar y el resto como variables explicativas.
+
 ## Conclusiones
