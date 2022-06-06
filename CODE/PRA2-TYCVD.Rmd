@@ -4,12 +4,12 @@ subtitle: "Limpieza y análisis de datos"
 author: "Jorge Alonso Hernández e Inés Vidal Sospedra"
 date: '`r format(Sys.Date(),"%e de %B, %Y")`'
 output:
+  html_document:
+    toc: yes   
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
-  html_document:
-    toc: yes   
 ---
 
 ```{r setup, include=FALSE}
@@ -601,4 +601,12 @@ write.csv2(d_test, row.names = TRUE, "../CSV_Finales/test_result.csv")
 
 Como conclusión al trabajo, queríamos destacar:
 
+
+## Contribuciones al trabajo
+
+|Contribuciones             |Firma     |
+|---------------------------|----------|
+|Investigación previa       | JAH - IVS|
+|Redacción de las respuestas| JAH - IVS|
+|Desarrollo código          | JAH - IVS|
 
