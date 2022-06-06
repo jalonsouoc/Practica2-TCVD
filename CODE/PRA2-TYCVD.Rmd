@@ -261,7 +261,7 @@ figure
 ````
 De los gráficos obtenidos se puede comentar que para la variable:
 
-- Pclass: para los pasajeros de primera clase, el porcentaje de supervivientes es muy superior al 50%, mientras que para los de segunda se sitúa ligeramente por debajo del 50%, significando que hay más supervivientes de segunda clase. En cuanto a los pasajeros de tercera clase, el número de supervivientes no llega a 1/4 del total. Pues, a mejor clase, las probabilidades de sobrevivir parecen aumentar.
+- Pclass: para los pasajeros de primera clase, el porcentaje de supervivientes es muy superior al 50%, mientras que para los de segunda se sitúa ligeramente por debajo del 50%, significando que hay más supervivientes de primera clase. En cuanto a los pasajeros de tercera clase, el número de supervivientes no llega a 1/4 del total. Pues, a mejor clase, las probabilidades de sobrevivir parecen aumentar.
 
 - Sex: la diferencia de relación entre supervivientes respecto a hombres y mujeres muestra una diferencia evidente. El porcentaje de supervivientes por mujeres es de casi un 75%, mientras que por varones no llega al 20%. 
 
