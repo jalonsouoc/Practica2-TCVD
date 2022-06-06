@@ -4,12 +4,12 @@ subtitle: "Limpieza y análisis de datos"
 author: "Jorge Alonso Hernández e Inés Vidal Sospedra"
 date: '`r format(Sys.Date(),"%e de %B, %Y")`'
 output:
-  html_document:
-    toc: yes   
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
     toc: yes
+  html_document:
+    toc: yes   
 ---
 
 ```{r setup, include=FALSE}
@@ -325,8 +325,8 @@ Para ello, realizaremos
 En primer lugar para poder realizar el estudio obtenemos las muestras de las edades para los supervivientes y los no supervivientes
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
-supervivientes <- dataset$Age[dataset$Survived == 0] # Datos de supervivientes
-noSupervivientes <- dataset$Age[dataset$Survived == 1] # Datos de los no supervivientes
+supervivientes <- dataset$Age[dataset$Survived == 1] # Datos de supervivientes
+noSupervivientes <- dataset$Age[dataset$Survived == 0] # Datos de los no supervivientes
 ````
 
 Definimos la hipótesis nula y la hipótesis alternativa:
@@ -337,7 +337,7 @@ $$H_0: µ_1 = µ_2$$
 
 * **Hipótesis alternativa:** el promedio de las edades de los supervivientes es mayor a el promedio de las edades de los no supervivientes
 
-$$H_0: µ_1 > µ_2$$
+$$H_1: µ_1 > µ_2$$
 
 Antes de aplicar el estadístico del contraste realizaremos el test de homocedasticidad  para comprobar si las varianzas son iguales:
 
@@ -399,27 +399,27 @@ woman <- dataset$Survived[dataset$Sex == "female"]
 
 Definimos la hipótesis nula y la hipótesis alternativa
 
-* **Hipótesis nula:** la proporción de hombres que sobrevivieron es igual a la proporción de mujeres quesobrevivieron
+* **Hipótesis nula:** la proporción de muejres que sobrevivieron es igual a la proporción de hombres quesobrevivieron
 
 $$H_0: p_1 = p_2$$
 
 
-* **Hipótesis alternativa:** la proporción de hombres que sobrevivieron es diferente a la proproción de mujeres que sobrevivieron 
+* **Hipótesis alternativa:** la proporción de muejres que sobrevivieron es diferente a la proproción de hombres que sobrevivieron 
 
-$$H_0: p_1 ≠ p_2$$
+$$H_1: p_1 ≠ p_2$$
 
 En este caso aplicamos el estadístico relativo al contraste de la proporción de dos muestras 
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 alfa <- 1-0.95
-x1 <- man[man == 1] # Hombres supervivientes
-x2 <- woman[woman == 1] # Mujeres supervivientes
+x1 <- woman[woman == 1]  # Mujeres supervivientes
+x2 <- man[man == 1] # Hombres supervivientes 
 
-n1 <- length(man) # número de hombres en el barco
-n2 <- length(woman) # número de mujeres en el barco 
+n1 <- length(woman) # número de mujeres en el barco 
+n2 <- length(man)   # número de hombres en el barco
 
-p1 <- sum(length(x1))/n1 # proproción de hombres supervivientes
-p2 <- sum(length(x2))/n2 # proporción de muejres supervivientes
+p1 <- sum(length(x1))/n1 # proporción de muejres supervivientes
+p2 <- sum(length(x2))/n2 #proproción de hombres supervivientes
 
 p <- (n1*p1 + n2*p2) / (n1+n2)
 zobs <- (p1-p2)/(sqrt((p*(1-p))*(1/n1+1/n2)))
@@ -438,7 +438,7 @@ nn <- c(n1,n2)
 prop.test(success, nn, alternative="greater", correct=FALSE)
 ````
 
-Obtenemos que en ámbos casos el p-valor es igual por lo que podemos aceptar la hipótesis nula debido a que el p-valor obtenido es superior al alfa de 0.05 por lo que concluimos que la proporción de hombres supervivientes es igual a la proporción de mujeres supervivientes con un nivel de confianza del 95%.
+Obtenemos que en ambos casos el p-valor es inferior al alfa definido de 0.05 por lo que podemos rechazar la hipótesis nula de que la proporción de mujeres supervivientes es igual a la proporción de hombres supervivientes y aceptamos la hipótesis alternativa de que la proporción de mujeres supervivientes es diferente a la proporción de hombres uspervivientes con un nivel de confianza del 95%.
 
 ### Cálculo de un modelo de regresión logística 
 
