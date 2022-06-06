@@ -25,3 +25,14 @@ Este proyecto es parte de una Práctica de la asignatura Tipología y ciclo de v
 
 ## Bibliografía
 
+Han, J., Kamber, M., & Pei, J. (2012). Data Mining: Concepts and Techniques. In Data Mining: Concepts and Techniques. Elsevier Inc. https://doi.org/10.1016/C2009-0-61819-5
+
+Hasija, Y., & Chakraborty, R. (2021). Python for Data Analysis. In Hands-On Data Science for Biologists Using Python (pp. 71–90). https://doi.org/10.1201/9781003090113-4-4
+
+Osborne, J. W. (2010). Data Cleaning Basics: Best Practices in Dealing with Extreme Scores [Article]. Newborn and Infant Nursing Reviews, 10(1), 37–43. https://doi.org/10.1053/j.nainr.2009.12.009
+
+Squire, M. (2018). Cleaning , Organizing , and Manipulating Your Data.
+
+Subirats Maté, L., Perez Trenard, D. O., & Calvo Gonzalez, M. (2020). Introducción a la limpieza y análisis de los datos. 1–68. http://materials.cv.uoc.edu/daisy/Materials/PID_00265704/pdf/PID_00265704.pdf
+
+
