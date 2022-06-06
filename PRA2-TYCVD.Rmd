@@ -213,7 +213,7 @@ Podemos apreciar que la mayoría de los pasajeros pertenecen al rango de edad en
 **Guardar dataset**
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
-write.csv(dataset, "train_clean.csv")
+write.csv2(dataset, row.names = TRUE, "train_clean.csv")
 ````
 
 ## Análisis de los datos
@@ -274,7 +274,7 @@ qqline(dataset$Age)
 
 El test Shapiro-Wilk da un p-value de 3,969·10−15 (muy inferior a 0,05), por lo que **se rechaza la hipótesis de que la variable ‘Age’ sigue una distribución normal**. Además, en la gráfica Q-Q, los puntos se alejan significativamente de la recta. 
 
-Sabiendo que los datos sobre la edad de los pasajeros no se distribuyen de forma normal, puede procederse a comprobar la homogeneidad de la varancia en esta misma variable ‘Age’.
+Sabiendo que los datos sobre la edad de los pasajeros no se distribuyen de forma normal, puede procederse a comprobar la homogeneidad de la varianza en esta misma variable ‘Age’.
 
 Para estudiar la homocedasticidad de los datos sobre la edad, primero se representan los diagramas de cajas para ambos grupos, para tener una idea de si las muestras entre estos dos grupos se distribuyen de la misma modo. Y para tener una respuesta definitiva a saber si las varianzas son iguales, teniendo en cuenta que la variable 'Age' no sigue una distribución normal, se aplica el test de Levene sobre la mediana.
 
@@ -555,32 +555,22 @@ while (n <= length(predictions)) {
 head(predictions, n=20)
 
 ````
-````{r echo=TRUE, message=FALSE, warning=FALSE}
-d_test["Survived"] <- predictions
-````
 
 Se comprueba que por cada línea se extrae un valor 0 o 1 correspondiente a si el pasajero determinado no sobrevive (0) o sobrevive (1).
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
-predicted_positive <- sum(d_test$Survived==1)
-predicted_negative <- sum(d_test$Survived==0)
-total <- predicted_positive + predicted_negative
+d_test["Survived"] <- predictions
 ````
+
+## Exportación de datos finales
+
+A continuación, vamos a exportar nuestro dataframe final a un archivo .csv. Este archivo se llamará test_result y utilizaremos la función write.csv2() para exportar el fichero en formato csv español.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
-print(predicted_positive/total*100)
+write.csv2(d_test, row.names = TRUE, "test_result.csv")
 ````
 
-````{r echo=TRUE, message=FALSE, warning=FALSE}
 
-print(predicted_negative/total*100)
-````
-
-**Guardar dataset**
-
-````{r echo=TRUE, message=FALSE, warning=FALSE}
-write.csv(d_test, "test_result.csv")
-````
 
 ## Conclusiones
 
