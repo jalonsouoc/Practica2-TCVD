@@ -322,7 +322,7 @@ Para ello, realizaremos
 
 ### Contraste de hipótesis sobre la media poblacional de la edad entre los pasajeros supervivientes, y los no supervivientes.
 
-En primer lugar para poder realizar el estudio obtenemos las muestras de las edades para los supervivientes y los no supervivientes
+En primer lugar, para poder realizar el estudio obtenemos las muestras de las edades para los supervivientes y los no supervivientes
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 supervivientes <- dataset$Age[dataset$Survived == 1] # Datos de supervivientes
@@ -333,11 +333,11 @@ Definimos la hipótesis nula y la hipótesis alternativa:
 
 * **Hipótesis nula:** el promedio de las edades de los supervivientes es igual al promedio de edades de los no supervivientes
 
-$$H_0: µ_1 = µ_2$$
+$$H_0: m_1 = m_2$$
 
 * **Hipótesis alternativa:** el promedio de las edades de los supervivientes es mayor a el promedio de las edades de los no supervivientes
 
-$$H_1: µ_1 > µ_2$$
+$$H_1: m_1 > m_2$$
 
 Antes de aplicar el estadístico del contraste realizaremos el test de homocedasticidad  para comprobar si las varianzas son iguales:
 
@@ -438,7 +438,7 @@ nn <- c(n1,n2)
 prop.test(success, nn, alternative="greater", correct=FALSE)
 ````
 
-Obtenemos que en ambos casos el p-valor es inferior al alfa definido de 0.05 por lo que podemos rechazar la hipótesis nula de que la proporción de mujeres supervivientes es igual a la proporción de hombres supervivientes y aceptamos la hipótesis alternativa de que la proporción de mujeres supervivientes es diferente a la proporción de hombres uspervivientes con un nivel de confianza del 95%.
+Obtenemos que en ambos casos el p-valor es inferior al alfa definido de 0.05 por lo que podemos rechazar la hipótesis nula de que la proporción de mujeres supervivientes es igual a la proporción de hombres supervivientes y aceptamos la hipótesis alternativa de que la proporción de mujeres supervivientes es diferente a la proporción de hombres supervivientes con un nivel de confianza del 95%.
 
 ### Cálculo de un modelo de regresión logística 
 
