@@ -20,27 +20,22 @@ knitr::opts_chunk$set(echo = TRUE)
 # Descripción de la Práctica a realizar
 ******
 
-El objetivo de esta actividad será el tratamiento de un dataset, que puede ser el creado en la
-práctica 1 o bien cualquier dataset libre disponible en Kaggle (https://www.kaggle.com).
+El objetivo de esta actividad será el tratamiento de un dataset, que puede ser el creado en la práctica 1 o bien cualquier dataset libre disponible en Kaggle (https://www.kaggle.com).
+
 Algunos ejemplos de dataset con los que podéis trabajar son:
 
 - Red Wine Quality (https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009)
 - Titanic: Machine Learning from Disaster (https://www.kaggle.com/c/titanic)
 
-El último ejemplo corresponde a una competición activa de Kaggle de manera que,
-opcionalmente, podéis aprovechar el trabajo realizado durante la práctica para entrar en esta
-competición
+El último ejemplo corresponde a una competición activa de Kaggle de manera que, opcionalmente, podéis aprovechar el trabajo realizado durante la práctica para entrar en esta competición.
 
-Importante: si se elige un dataset diferente de los propuestos es importante que este contenga
-una amplia variedad de datos numéricos y categóricos para poder realizar un análisis más rico y
-poder responder a las diferentes preguntas planteadas en el enunciado de la práctica.
+Importante: si se elige un dataset diferente de los propuestos es importante que este contenga una amplia variedad de datos numéricos y categóricos para poder realizar un análisis más rico y poder responder a las diferentes preguntas planteadas en el enunciado de la práctica.
 
 ******
 # Solución 
 ******
 
-Siguiendo las principales etapas de un proyecto analítico, las diferentes tareas a realizar (y
-justificar) son las siguientes:
+Siguiendo las principales etapas de un proyecto analítico, las diferentes tareas a realizar (y justificar) son las siguientes:
 
 ## Importación del dataset
 
@@ -48,8 +43,8 @@ En el presente trabajo utilizaremos el conjunto de datos "Titanic" que recoge da
 
 Concretamente, los datos que se utilizan en este estudio se encuentran disponibles en Kaggle (https://www.kagg le.com/c/titanic). Estos están organizados en dos archivos de formato csv: 
 
-- 'train .csv' con todos los datos de una parte de los pasajeros, 
-- 'test.csv' con todos los datos de los pasajeros restantes sin el atributo que indica si sobrevivieron o no. 
+- **'train .csv'** con todos los datos de una parte de los pasajeros, 
+- **'test.csv'** con todos los datos de los pasajeros restantes sin el atributo que indica si sobrevivieron o no. 
 
 Este hecho se debe a que el primer archivo ('train.csv') está pensado para estudiar la relación entre las diferentes características de los pasajeros y sobrevivir o no, mientras que el segundo ('test.csv') está pensado en predecir si los pasajeros sobrevivirán o no en función de las observaciones hechas en el primero.
 
@@ -86,21 +81,20 @@ str(d_test)
 
 El segundo dataset (d_test) contiene los datos de prueba o test y cuenta con un total de 418 registros y 11 variables. Esta variable de menos con respecto al primer dataset se debe a que no se dispone de la información referente a la supervivencia del pasajero ya que esta es la variable a predecir.
 
-
 A cotinuación se describen las variables contenidas en ambos datasets:
 
-- PassengerId: variable numérica que contiene el identificador único de cada pasajero.
-- Survival: variable categórica que indica si el pasajero sobrevive o no (0=No,1=Yes).
-- Pclass: variable numérica que indica la clase en la que viaja el pasajero (1=1st,2=2nd, 3=3rd).
-- Name: variable categórica que indica el nombre del pasajero. Hay tantas categorías como registros.
-- Sex: variable categórica que indica el género del pasajero (male, female).
-- Age: variable numérica que indica la edad del pasajero, en años.
-- SibSp: variable numérica que indica el número de hermanos/as y esposo/a que el pasajero tiene a bordo del Titánico.
-- Parch: variable numérica que indica el número de padres e hijos que el pasajero tiene a bordo del Titanic.
-- Ticket: variable categórica que indica el identificador de ticket del pasajero. Contiene 363 categorías diferentes.
-- Fare: variable numérica que indica el precio del ticket del pasajero.
-- Cabin: variable categórica que indica el identificador de la cabina del pasajero.
-- Embarked: variable categórica que indica el puerto por el que embarcó el pasajero (C=Cherbourg,Q=Queenstown,S=Southampton)
+- *PassengerId*: variable numérica que contiene el identificador único de cada pasajero.
+- *Survival*: variable categórica que indica si el pasajero sobrevive o no (0=No,1=Yes).
+- *Pclass*: variable numérica que indica la clase en la que viaja el pasajero (1=1st,2=2nd, 3=3rd).
+- *Name*: variable categórica que indica el nombre del pasajero. Hay tantas categorías como registros.
+- *Sex*: variable categórica que indica el género del pasajero (male, female).
+- *Age*: variable numérica que indica la edad del pasajero, en años.
+- *SibSp*: variable numérica que indica el número de hermanos/as y esposo/a que el pasajero tiene a bordo del Titánico.
+- *Parch*: variable numérica que indica el número de padres e hijos que el pasajero tiene a bordo del Titanic.
+- *Ticket*: variable categórica que indica el identificador de ticket del pasajero. Contiene 363 categorías diferentes.
+- *Fare*: variable numérica que indica el precio del ticket del pasajero.
+- *Cabin*: variable categórica que indica el identificador de la cabina del pasajero.
+- *Embarked*: variable categórica que indica el puerto por el que embarcó el pasajero (C=Cherbourg,Q=Queenstown,S=Southampton)
 
 Observando estas variables, se puede apreciar la importancia de éstas para poder dar respuesta al objetivo de este estudio (¿el pasajero sobrevive?) y encontrar si existe algún factor, o factores, que determinen la supervivencia de los pasajeros en el accidente del Titanic.
 
@@ -108,7 +102,7 @@ Observando estas variables, se puede apreciar la importancia de éstas para pode
 
 Para realizar el análisis sobre qué pasajeros sobrevivieron y cuáles no, se considera que no todas las variables contenidas en el dataset de entrenamiento son de interés.
 
-Por ello, cabe mencionar que la información que contienen las variables 'Ticket', 'Fare' y 'Cabin' es muy variada y se entiende que la información de interés que pueden contener está contenida en la variable 'Pclass', puesto que el número de ticket, su precio y la cabina dependerán de si el pasajero viaja en primera, segunda o tercera clase.
+Por ello, cabe mencionar que la información que contienen las variables 'Ticket', 'Fare' y 'Cabin' es muy variada y se entiende que la información de interés que pueden contener está contenida en la variable 'Pclass', puesto que el número de ticket, su precio y la cabina dependerán de si el pasajero viajaba en primera, segunda o tercera clase.
 
 También las variables ‘PassengerId’ y ‘Name’, siendo únicas para cada persona, se decide no seleccionarlas para su posterior análisis.
 
@@ -216,9 +210,15 @@ plot(dataset$rango_edad)
 
 Podemos apreciar que la mayoría de los pasajeros pertenecen al rango de edad entre los 20 y los 29 años.
 
+**Guardar dataset**
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+write.csv(dataset, "train_clean.csv")
+````
+
 ## Análisis de los datos
 
-**Selección de los grupos de datos que se quieren analizar/comparar (p. e., si se van a comparar grupos de datos, ¿cuáles son estos grupos y qué tipo de análisis se van a aplicar?)**
+### Selección de los grupos de datos que se quieren analizar/comparar 
 
 Como primer análisis sobre el conjunto de datos, es interesante observar cómo están repartidos los pasajeros entre supervivientes y no supervivientes, respecto al resto de variables seleccionadas para el estudio.
 
@@ -257,7 +257,7 @@ De los gráficos obtenidos se puede comentar que para la variable:
 - Family: para los pasajeros en familia, se observa que la relación entre supervivientes es más favorable que para los que viajan solos. Así pues, parece que los pasajeros en familia deben tener más éxito en sobrevivir.
 - Embarked: para los pasajeros que han embarcado en Cherbourg muestran una relación de supervivencia de 45-55, ganando a los supervivientes, pero en los casos de Queenstown y Southampton se observa una relación similar, donde los supervivientes representan menos del 40%. 
 
-**Comprobación de la normalidad y homogeneidad de la varianza.**
+### Comprobación de la normalidad y homogeneidad de la varianza.**
 
 Para poder realizar un contraste de hipótesis sobre la media poblacional en la variable Age, primero es necesario estudiar si la distribución de estos datos es normal y si la varianza es homogénea (homocedasticidad), es decir, si la varianza entre los pasajeros supervivientes y no puede considerarse igual en ambos grupos.
 
@@ -316,11 +316,11 @@ Definimos la hipótesis nula y la hipótesis alternativa:
 
 $$H_0: µ_1 = µ_2$$
 
-* **Hipótesis alternativa:** el promedio de las edades de los supervivientes es mayor a el promedio de las edadesd de los no supervivientes
+* **Hipótesis alternativa:** el promedio de las edades de los supervivientes es mayor a el promedio de las edades de los no supervivientes
 
 $$H_0: µ_1 > µ_2$$
 
-Antes de aplicar el estadístico del contraste realizaremos el test de homocesdasticidad  para comprobar si las varianzas son iguales:
+Antes de aplicar el estadístico del contraste realizaremos el test de homocedasticidad  para comprobar si las varianzas son iguales:
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -346,10 +346,9 @@ Realizamos la comprobación del resultado con la función en R var.test.
 var.test(H, D)
 ````
 
-Como podemos observar los resultados coinciden y se obtiene un p-valor inferior al alfa definido de 0.05 por lo que podemos asumir que las crianzas son diferentes. 
+Como podemos observar los resultados coinciden y se obtiene un p-valor inferior al alfa definido de 0.05 por lo que podemos asumir que las varianzas son diferentes. 
 
-Al estar ante unas varianzas diferentes el estadistico a a plicar será el contraste de dos muestras sobre la media con viaranzas diferentes.
-
+Al estar ante unas varianzas diferentes el estadistico a aplicar será el contraste de dos muestras sobre la media con varianzas diferentes.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 alfa <- 1-0.95
@@ -368,7 +367,7 @@ Realizamos la comprobación de los calculos con la función en R t.test
 t.test(H,D)
 ````
 
-Podemos observar de nuevo que coinciden los resultados y que tenemos un p-valor inferior  al alfa definido de 0.05 por lo que rechazamos la hipótesis nula de que el promedio de las edades de los supervivientes es igual a el promedio de edades de los no supervivientes y aceptamos la hipótesis nula que establece que el promedio de edad de los supervivientes es mayor al promedio de edad de los no supervivientes.
+Podemos observar de nuevo que coinciden los resultados y que tenemos un p-valor inferior al alfa definido de 0.05 por lo que rechazamos la hipótesis nula de que el promedio de las edades de los supervivientes es igual a el promedio de edades de los no supervivientes y aceptamos la hipótesis alternativa que establece que el promedio de edad de los supervivientes es mayor al promedio de edad de los no supervivientes.
 
 ### Contraste de hipótesis sobre la proporción de supervivientes entre pasajeros hombres y pasajeras mujeres
 
@@ -422,13 +421,16 @@ prop.test(success, nn, alternative="greater", correct=FALSE)
 
 Obtenemos que en ámbos casos el p-valor es igual por lo que podemos aceptar la hipótesis nula debido a que el p-valor obtenido es superior al alfa de 0.05 por lo que concluimos que la proporción de hombres supervivientes es igual a la proporción de mujeres supervivientes con un nivel de confianza del 95%.
 
-### Cálculo de un modelo de regresión logística tomando la supervivencia como variable a explicar y el resto como variables explicativas.
+### Cálculo de un modelo de regresión logística 
+
+Cálculo de un modelo de regresión logística tomando la supervivencia como variable a explicar y el resto como variables explicativas.
 
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 modelo <- glm(formula = Survived~Pclass+Sex+rango_edad+Family+Embarked,
 data = dataset, family = binomial)
 summary(modelo)
 ````
+
 Puede observarse que todas las variables explicativas son estadísticamente significativas a un nivel de confianza del 95% menos FamilyYes, EmbarkedQ y rango_edad70-79. Estas tres últimas variables no tienen ningún asterisco al final de la fila, por tanto, esto indica que no representan valor estadístico dentro del modelo.
 
 Sin embargo, para poder interpretar más exhaustivamente la regresión logística debería calcularse e interpretar los odds ratio. Adicionalmente, también se puede comprobar que todos los coeficientes de la regresión son negativos, esto significa que todos ellos afectan negativamente al hecho de sobrevivir el Titanic.
@@ -460,7 +462,6 @@ conf_mat
 
 ````
 
-
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 (475+239)/(475+239+101+74)*100
 ````
@@ -471,7 +472,6 @@ Puede concluirse que el modelo de regresión logística tiene una precisión del
 ### Integración y selección de los datos de interés 
 
 A continuación se procederá a realizar todos los cambios necesarios para trabajar con el archivo test de los datos con el objetivo de predecir si los pasajeros sobrevivirán o no.
-
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 # Create the new variable 'Family'.
@@ -574,6 +574,12 @@ print(predicted_positive/total*100)
 ````{r echo=TRUE, message=FALSE, warning=FALSE}
 
 print(predicted_negative/total*100)
+````
+
+**Guardar dataset**
+
+````{r echo=TRUE, message=FALSE, warning=FALSE}
+write.csv(d_test, "test_result.csv")
 ````
 
 ## Conclusiones
